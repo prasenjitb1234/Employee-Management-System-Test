@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Update' : 'Add' }} Department</h2>
+
+  <form (ngSubmit)="onSubmit()" #deptForm="ngForm">
+    <input type="text" [(ngModel)]="department.deptName" name="deptName" placeholder="Department Name" required />
+    <button type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="resetForm()">Clear</button>
+  </form>
+
+  <h2>All Departments</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Department Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dept of departments">
+        <td>{{ dept.deptId }}</td>
+        <td>{{ dept.deptName }}</td>
+        <td>
+          <button (click)="editDepartment(dept)">Edit</button>
+          <button (click)="deleteDepartment(dept.deptId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

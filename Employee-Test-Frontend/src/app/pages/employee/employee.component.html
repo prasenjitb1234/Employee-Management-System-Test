@@ -1,0 +1,64 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Update' : 'Add' }} Employee</h2>
+
+  <form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
+    <input type="text" [(ngModel)]="employee.firstName" name="firstName" placeholder="First Name" required />
+    <input type="text" [(ngModel)]="employee.lastName" name="lastName" placeholder="Last Name" required />
+    <input type="text" [(ngModel)]="employee.gender" name="gender" placeholder="Gender (M/F)" required />
+    <input type="text" [(ngModel)]="employee.city" name="city" placeholder="City" required />
+    <input type="text" [(ngModel)]="employee.phoneNo" name="phoneNo" placeholder="Phone No" required />
+    
+    <select [(ngModel)]="employee.department.deptId" name="deptId" required>
+      <option *ngFor="let dept of departments" [value]="dept.deptId">
+        {{ dept.deptName }}
+      </option>
+    </select>
+
+    <button type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="resetForm()">Clear</button>
+  </form>
+
+  <!-- 🔍 Search & Filter -->
+  <div class="search-filter" style="margin-bottom: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search by name or city" />
+    <select [(ngModel)]="selectedDeptId">
+      <option value="">All Departments</option>
+      <option *ngFor="let dept of departments" [value]="dept.deptId">
+        {{ dept.deptName }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 📋 Employee Table -->
+  <h2>All Employees</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Gender</th>
+        <th>City</th>
+        <th>Phone</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ✅ Use filtered list here -->
+      <tr *ngFor="let emp of filteredEmployees()">
+        <td>{{ emp.empId }}</td>
+        <td>{{ emp.firstName }}</td>
+        <td>{{ emp.lastName }}</td>
+        <td>{{ emp.gender }}</td>
+        <td>{{ emp.city }}</td>
+        <td>{{ emp.phoneNo }}</td>
+        <td>{{ emp.department?.deptName }}</td>
+        <td>
+          <button (click)="editEmployee(emp)">Edit</button>
+          <button (click)="deleteEmployee(emp.empId!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
